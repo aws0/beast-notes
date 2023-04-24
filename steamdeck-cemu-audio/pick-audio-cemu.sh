@@ -1,16 +1,10 @@
 #!/bin/bash
 
-#echo "checking if HDMI audio is present"
-## if HDMI is detected switch to HDMI SINK - give HDMI priority
-# export audioSinkHDMI=$(pactl list short sinks | grep alsa_output | grep hdmi | awk '{print $2}')
-# echo "audioSinkHDMI=${audioSinkHDMI}"
-# if [ ${audioSinkHDMI} ]; then
-#   c\p /home/deck/.var/app/info.cemu.Cemu/config/Cemu/settings.xml /home/deck/.var/app/info.cemu.Cemu/config/Cemu/settings.xml.bak
-#   sed -i ':a;N;$!ba; s|<TVDevice>alsa.*<\/TVDevice>|<TVDevice>'${audioSinkHDMI}'<\/TVDevice>|g' /home/deck/.var/app/info.cemu.Cemu/config/Cemu/settings.xml
-#   exit 0
-# fi
+## script that you cna use before launching cemu to configure it to pickup the active audio channel (add it to the launch)
+## to fix annoying issue with ceum (flatpak version) where it doesnt use the current active audio SINK; so when you connec to TV via HDMI, audio continues to come through the steamdeck and not through TV via HDMI
+## 
 
-## switch to the current active SINK
+## switch to the current active PA audio SINK
 export audioSinkACP=$(paplay /usr/share/sounds/Oxygen-Window-Maximize.ogg && pactl list short sinks | grep -e 'RUNNING' -e 'IDLE' | awk '{print $2}')
 echo "Detected active audio sink: ${audioSinkACP}"
 if [ ${audioSinkACP} ]; then
